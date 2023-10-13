@@ -1,0 +1,84 @@
+package singleton_design_pattern;
+
+// Реализация Singleton с ранней инициализацией
+class SingletonEagar {
+    private static SingletonEagar instance = new SingletonEagar(); 
+
+    // Приватный конструктор, чтобы предотвратить создание экземпляров извне
+    private SingletonEagar() {
+
+    }
+
+    // Глобальная точка доступа к экземпляру
+    public static SingletonEagar getInstance() {
+        return instance;
+    }
+}
+
+// Реализация Singleton с ленивой инициализацией
+class Singleton {
+    private static Singleton instance;
+
+    // Приватный конструктор, чтобы предотвратить создание экземпляров извне
+    private Singleton() {
+
+    }
+
+    // Глобальная точка доступа к экземпляру с ленивой инициализацией
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// Реализация Singleton с ленивой инициализацией и синхронизацией метода
+class SingletonSynchronizedMethod {
+    private static SingletonSynchronizedMethod instance;
+
+    // Приватный конструктор, чтобы предотвратить создание экземпляров извне
+    private SingletonSynchronizedMethod() {
+
+    }
+
+    // Глобальная точка доступа к экземпляру с ленивой инициализацией и синхронизацией метода
+    public static synchronized SingletonSynchronizedMethod getInstance() {
+        if (instance == null) {
+            instance = new SingletonSynchronizedMethod();
+        }
+        return instance;
+    }
+}
+
+// Реализация Singleton с ленивой инициализацией и синхронизацией блока
+class SingletonSynchronized {
+    private static SingletonSynchronized instance;
+
+    // Приватный конструктор, чтобы предотвратить создание экземпляров извне
+    private SingletonSynchronized() {
+
+    }
+
+    // Глобальная точка доступа к экземпляру с ленивой инициализацией и синхронизацией блока
+    public static SingletonSynchronized getInstance() {
+        if (instance == null) {
+            synchronized (SingletonSynchronized.class) {
+                if (instance == null) {
+                    instance = new SingletonSynchronized();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+public class SingletonPattern {
+    public static void main(String[] args) {
+        // Пример использования SingletonSynchronized
+        SingletonSynchronized instance = SingletonSynchronized.getInstance();
+        System.out.println(instance);
+        SingletonSynchronized instance1 = SingletonSynchronized.getInstance();
+        System.out.println(instance1);
+    }
+}
