@@ -1,0 +1,68 @@
+package builder_design_pattern;
+
+// Класс Vehicle представляет собой объект, который мы хотим построить с использованием Builder Pattern.
+class Vehicle {
+  private String engine;
+  private int wheel;
+  private int airbags;
+  
+  public String getEngine() {
+    return this.engine;
+  }
+  
+  public int getWheel() {
+    return this.wheel;
+  }
+  
+  public int getAirbags() {
+    return this.airbags;
+  }
+  
+  // Приватный конструктор класса Vehicle, принимающий объект VehicleBuilder
+  private Vehicle(VehicleBuilder builder) {
+    this.engine = builder.engine;
+    this.wheel = builder.wheel;
+    this.airbags = builder.airbags;
+  }
+  
+  // Вложенный класс VehicleBuilder предоставляет методы для настройки объекта Vehicle.
+  public static class VehicleBuilder {
+    private String engine;
+    private int wheel;
+    private int airbags;
+    
+    // Конструктор VehicleBuilder принимает обязательные параметры.
+    public VehicleBuilder(String engine, int wheel) {
+      this.engine = engine;
+      this.wheel = wheel;
+    }
+    
+    // Метод setAirbags позволяет устанавливать необязательные параметры.
+    public VehicleBuilder setAirbags(int airbags) {
+      this.airbags = airbags;
+      return this;
+    }
+    
+    // Метод build создает и возвращает объект Vehicle, используя текущее состояние VehicleBuilder.
+    public Vehicle build() {
+      return new Vehicle(this);
+    }
+  }
+}
+
+public class BuilderPattern {
+  public static void main(String[] args) {
+    // Создаем объекты Vehicle с использованием паттерна Builder
+    Vehicle car = new Vehicle.VehicleBuilder("1500cc", 4).setAirbags(4).build();
+    Vehicle bike = new Vehicle.VehicleBuilder("250cc", 2).build();
+    
+    // Выводим информацию о созданных объектах Vehicle
+    System.out.println("Car Engine: " + car.getEngine());
+    System.out.println("Car Wheels: " + car.getWheel());
+    System.out.println("Car Airbags: " + car.getAirbags());
+    
+    System.out.println("Bike Engine: " + bike.getEngine());
+    System.out.println("Bike Wheels: " + bike.getWheel());
+    System.out.println("Bike Airbags: " + bike.getAirbags());
+  }
+}
