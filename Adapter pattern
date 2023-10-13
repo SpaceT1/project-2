@@ -1,0 +1,70 @@
+package adapter_design_pattern;
+
+// Интерфейс WebDriver определяет общий набор методов для работы с веб-элементами
+interface WebDriver {
+    public void getElement();
+    public void selectElement();
+}
+
+// Класс ChromeDriver реализует интерфейс WebDriver и предоставляет конкретную реализацию для браузера Chrome
+class ChromeDriver implements WebDriver {
+    @Override
+    public void getElement() {
+        System.out.println("Get element from ChromeDriver");
+    }
+
+    @Override
+    public void selectElement() {
+        System.out.println("Select element from ChromeDriver");
+    }
+}
+
+// Класс IEDriver представляет другую реализацию, специфичную для браузера Internet Explorer
+class IEDriver {
+    public void findElement() {
+        System.out.println("Find element from IEDriver");
+    }
+
+    public void clickElement() {
+        System.out.println("Click element from IEDriver");
+    }
+}
+
+// Класс WebDriverAdapter реализует интерфейс WebDriver, но адаптирует IEDriver к этому интерфейсу
+class WebDriverAdapter implements WebDriver {
+    IEDriver ieDriver;
+
+    public WebDriverAdapter(IEDriver ieDriver) {
+        this.ieDriver = ieDriver;
+    }
+
+    @Override
+    public void getElement() {
+        // Адаптер вызывает методы IEDriver для выполнения соответствующих операций
+        ieDriver.findElement();
+    }
+
+    @Override
+    public void selectElement() {
+        // Адаптер также использует методы IEDriver для выполнения соответствующих действий
+        ieDriver.clickElement();
+    }
+}
+
+public class AdapterPattern {
+    public static void main(String[] args) {
+        // Создаем экземпляры ChromeDriver и IEDriver, а затем адаптируем IEDriver к интерфейсу WebDriver
+        ChromeDriver chromeDriver = new ChromeDriver();
+        chromeDriver.getElement();
+        chromeDriver.selectElement();
+
+        IEDriver ieDriver = new IEDriver();
+        ieDriver.findElement();
+        ieDriver.clickElement();
+
+        // Используем адаптер WebDriverAdapter для выполнения операций с IEDriver через интерфейс WebDriver
+        WebDriver adaptedIEDriver = new WebDriverAdapter(ieDriver);
+        adaptedIEDriver.getElement();
+        adaptedIEDriver.selectElement();
+    }
+}
